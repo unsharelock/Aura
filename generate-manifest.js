@@ -23,16 +23,23 @@ function cleanName(filename) {
     .trim();
 }
 
-function findCover(files, albumFolderName) {
-  // First look for explicitly named cover files
+function findAlbumCover(files) {
+  // Prefer explicitly named cover files (cover.jpg, folder.jpg, etc.)
   for (const f of files) {
     const ext  = path.extname(f).toLowerCase();
     const base = path.basename(f, ext).toLowerCase();
     if (IMAGE_EXTS.has(ext) && COVER_NAMES.has(base)) return f;
   }
-  // Fall back to any image
-  for (const f of files) {
-    if (IMAGE_EXTS.has(path.extname(f).toLowerCase())) return f;
+  return null;
+}
+
+// Find a per-song image: same base name as the audio file, any image extension
+function findTrackCover(audioFile, allFiles) {
+  const baseName = path.basename(audioFile, path.extname(audioFile)).toLowerCase();
+  for (const f of allFiles) {
+    const ext      = path.extname(f).toLowerCase();
+    const fileBase = path.basename(f, ext).toLowerCase();
+    if (IMAGE_EXTS.has(ext) && fileBase === baseName) return f;
   }
   return null;
 }
@@ -58,15 +65,19 @@ for (const entry of entries) {
 
   if (audioFiles.length === 0) continue;
 
-  const coverFile = findCover(albumFiles, albumName);
+  const coverFile = findAlbumCover(albumFiles);
 
   albums.push({
     name:   albumName,
     cover:  coverFile ? `music/${albumName}/${coverFile}` : null,
-    tracks: audioFiles.map(f => ({
-      name: cleanName(f),
-      file: `music/${albumName}/${f}`,
-    })),
+    tracks: audioFiles.map(f => {
+      const trackCover = findTrackCover(f, albumFiles);
+      return {
+        name:  cleanName(f),
+        file:  `music/${albumName}/${f}`,
+        cover: trackCover ? `music/${albumName}/${trackCover}` : null,
+      };
+    }),
   });
 }
 
@@ -81,5 +92,8 @@ if (albums.length === 0) {
   console.log('✅  manifest.json written → 0 albums (empty library)');
 } else {
   console.log(`✅  manifest.json written → ${albums.length} album(s), ${totalTracks} track(s)`);
-  albums.forEach(a => console.log(`   📀 ${a.name} (${a.tracks.length} tracks)${a.cover ? ' 🖼️' : ''}`));
+  albums.forEach(a => {
+    const withArt = a.tracks.filter(t => t.cover).length;
+    console.log(`   📀 ${a.name} (${a.tracks.length} tracks)${a.cover ? ' 🖼️ album art' : ''}${withArt ? ` · 🎨 ${withArt} track thumbnail${withArt > 1 ? 's' : ''}` : ''}`);
+  });
 }

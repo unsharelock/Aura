@@ -108,6 +108,11 @@ function setProgressBarFill(input, pct) {
     `linear-gradient(to right, #a78bfa ${v}%, rgba(255,255,255,0.1) ${v}%)`;
 }
 
+// Returns the best available art for a track: per-song > album cover > null
+function getTrackArt(track) {
+  return track.cover || track.albumCover || null;
+}
+
 // ── SCREEN MANAGEMENT ──────────────────────────────────────────────────────
 function showScreen(name) {
   loadingScreen.classList.toggle('active', name === 'loading');
@@ -448,10 +453,11 @@ function updateRadioNowPlaying(track) {
   if (oldImg) oldImg.remove();
   const svg = discArt.querySelector('svg');
 
-  if (track.albumCover) {
+  const art = getTrackArt(track);
+  if (art) {
     const img = document.createElement('img');
-    img.src = track.albumCover;
-    img.alt = track.albumName;
+    img.src = art;
+    img.alt = track.name;
     discArt.appendChild(img);
     if (svg) svg.style.display = 'none';
   } else {
@@ -476,10 +482,11 @@ function updatePlayerBar(track) {
   if (oldImg) oldImg.remove();
   const svg = playerArt.querySelector('svg');
 
-  if (track.albumCover) {
+  const art = getTrackArt(track);
+  if (art) {
     const img = document.createElement('img');
-    img.src = track.albumCover;
-    img.alt = track.albumName;
+    img.src = art;
+    img.alt = track.name;
     playerArt.appendChild(img);
     if (svg) svg.style.display = 'none';
   } else {
