@@ -419,6 +419,10 @@ code { font-family: 'Courier New', monospace; }
   transition: all var(--transition); border: 1px solid transparent;
   animation: fadeInLeft 0.3s ease both;
 }
+/* When album has any thumbnails, add a column for the image */
+.track-item.has-thumbs {
+  grid-template-columns: 40px 44px 1fr auto;
+}
 .track-item:hover {
   background: var(--bg-card); border-color: var(--border-glass);
 }
@@ -447,6 +451,30 @@ code { font-family: 'Courier New', monospace; }
 .track-item.playing .track-num-wrap .track-num { display: none; }
 .track-play-icon svg { width: 18px; height: 18px; fill: currentColor; }
 .track-item.playing .track-play-icon { color: var(--accent-purple); }
+
+/* Per-song thumbnail */
+.track-thumb {
+  width: 40px; height: 40px; flex-shrink: 0;
+  border-radius: 6px; overflow: hidden;
+  background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(56,189,248,0.2));
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.track-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+}
+.track-thumb-empty {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.track-item:hover .track-thumb {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.track-item.playing .track-thumb {
+  box-shadow: 0 0 0 2px var(--accent-purple);
+}
+
 .track-info { overflow: hidden; }
 .track-name {
   font-size: 0.92rem; font-weight: 500; white-space: nowrap;

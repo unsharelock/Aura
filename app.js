@@ -301,14 +301,21 @@ function renderAlbumView(i) {
 
   // Track list
   trackListEl.innerHTML = '';
+  const albumHasThumbs = album.tracks.some(t => t.cover);
   album.tracks.forEach((track, ti) => {
     const isNowPlaying =
       !state.isRadioMode &&
       state.currentTrack &&
       state.currentTrack.file === track.file;
 
+    const thumbHtml = albumHasThumbs
+      ? `<div class="track-thumb${track.cover ? '' : ' track-thumb-empty'}">
+           ${track.cover ? `<img src="${track.cover}" alt="${track.name}" loading="lazy" />` : ''}
+         </div>`
+      : '';
+
     const item = document.createElement('div');
-    item.className = 'track-item' + (isNowPlaying ? ' playing' : '');
+    item.className = 'track-item' + (isNowPlaying ? ' playing' : '') + (albumHasThumbs ? ' has-thumbs' : '');
     item.style.animationDelay = `${ti * 0.04}s`;
     item.innerHTML = `
       <div class="track-num-wrap">
@@ -317,6 +324,7 @@ function renderAlbumView(i) {
           <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </span>
       </div>
+      ${thumbHtml}
       <div class="track-info">
         <div class="track-name">${track.name}</div>
         <div class="track-artist">${album.name}</div>
