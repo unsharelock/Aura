@@ -1,4 +1,39 @@
 {
-  "generated": "2026-03-30T09:39:45.710Z",
-  "albums": []
+  "generated": "2026-03-30T09:43:15.279Z",
+  "albums": [
+    {
+      "name": "Classic",
+      "cover": null,
+      "tracks": [
+        {
+          "name": "A Candle for the Forgotten",
+          "file": "music/Classic/A Candle for the Forgotten.mp3"
+        },
+        {
+          "name": "Ashes of the Horizon",
+          "file": "music/Classic/Ashes of the Horizon.mp3"
+        },
+        {
+          "name": "Echoes of the Last Light",
+          "file": "music/Classic/Echoes of the Last Light.mp3"
+        },
+        {
+          "name": "Moonlit Cathedrals",
+          "file": "music/Classic/Moonlit Cathedrals.mp3"
+        },
+        {
+          "name": "Storm Over the Eternal Crown",
+          "file": "music/Classic/Storm Over the Eternal Crown.mp3"
+        },
+        {
+          "name": "The Last Ember We Carried",
+          "file": "music/Classic/The Last Ember We Carried.mp3"
+        },
+        {
+          "name": "Throne of Silence",
+          "file": "music/Classic/Throne of Silence.mp3"
+        }
+      ]
+    }
+  ]
 }
