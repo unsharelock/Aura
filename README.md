@@ -1,110 +1,95 @@
 # 🎵 Aura Music Player
 
-A premium, modern music player web app that runs 100% in your browser — no server needed. Perfect for hosting on **GitHub Pages**.
+A premium, modern music player that runs 100% in your browser — no backend needed. Deployable to **GitHub Pages** in minutes.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 How It Works
 
-1. **Open `index.html`** in Chrome or Edge (required for File System Access API)
-2. Click **"Open Music Folder"**
-3. Select your `music` directory
-
-That's it — your albums will appear automatically!
-
----
-
-## 📁 Folder Structure
+The app reads a `music/manifest.json` file that lists all your albums and tracks. This manifest is generated automatically — either locally or by GitHub Actions when you push new music.
 
 ```
 music/
 ├── Album One/
-│   ├── cover.jpg      ← optional album art (cover, folder, artwork, front)
-│   ├── 01 - Song.mp3
-│   ├── 02 - Song.flac
-│   └── ...
+│   ├── cover.jpg          ← optional album art
+│   ├── 01 - First.mp3
+│   └── 02 - Second.flac
 ├── Album Two/
-│   ├── cover.png
-│   └── ...
-└── ...
+│   └── song.wav
+└── manifest.json          ← auto-generated, don't edit manually
 ```
 
-- Each **subfolder** inside `music/` is treated as an **album**
-- Songs are sorted by filename (use numbered prefixes like `01 -`, `02 -`)
-- Album art is detected automatically if named `cover`, `folder`, `artwork`, `album`, `front`, or `art`
+---
+
+## 🌐 GitHub Pages Setup (One Time)
+
+1. Push this project to a **new GitHub repository**
+2. Go to your repo → **Settings → Pages**
+3. Under **Source**, select **"GitHub Actions"**
+4. Done — GitHub handles everything from here on
+
+---
+
+## ➕ Adding Music (Normal Workflow)
+
+Just add your album folders and push:
+
+```bash
+# 1. Drop album folders into music/
+# 2. Push to GitHub
+git add music/
+git commit -m "Add new albums"
+git push
+```
+
+GitHub Actions will automatically:
+- Run `generate-manifest.js` → update `music/manifest.json`
+- Deploy the updated app to GitHub Pages
+
+> Your app is live at: `https://yourusername.github.io/your-repo/`
+
+---
+
+## 💻 Running Locally
+
+```bash
+# Generate the manifest first
+node generate-manifest.js
+
+# Then serve with any static server, e.g.:
+npx serve .
+# Open http://localhost:3000 in Chrome or Edge
+```
+
+> ⚠️ Must be served over HTTP (`localhost`) — not opened as a `file://` URL.
 
 ---
 
 ## 🎵 Supported Formats
 
-| Format | Extension |
-|--------|-----------|
-| MP3    | `.mp3`    |
-| WAV    | `.wav`    |
-| FLAC   | `.flac`   |
-| OGG    | `.ogg`    |
-| AAC    | `.aac`    |
-| M4A    | `.m4a`    |
-| OPUS   | `.opus`   |
-| AIFF   | `.aiff`   |
+`mp3` · `wav` · `flac` · `ogg` · `aac` · `m4a` · `opus` · `aiff`
 
-> **Note:** FLAC and AIFF support depends on your browser. Chrome supports FLAC natively.
+> Chrome/Edge support all formats including FLAC. Add a `cover.jpg` (or `folder.jpg`, `artwork.jpg`) inside each album folder for cover art.
+
+---
+
+## ⌨️ Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `Space` | Play / Pause |
+| `→` / `←` | Seek ±10 seconds |
+| `Shift+→` / `Shift+←` | Next / Previous track |
+| `M` | Toggle mute |
+| `S` | Toggle shuffle |
 
 ---
 
 ## ✨ Features
 
-- 🎨 **Beautiful glassmorphism UI** with aurora background animations
-- 📀 **Album library** with grid view and cover art
-- 🎙️ **Radio mode** — infinite shuffle of ALL songs, reshuffles after each full cycle
-- ⌨️ **Keyboard shortcuts**: `Space` (play/pause), `→` (next), `←` (prev), `M` (mute), `S` (shuffle)
-- 🔀 **Shuffle & repeat** (off / one / all)
-- 🔊 **Volume control** with mute toggle
-- 🎵 **Equalizer animation** while playing
-- 💿 **Spinning disc** in radio mode
-
----
-
-## 🌐 Deploy to GitHub Pages
-
-1. Push this folder to a GitHub repository
-2. Go to **Settings → Pages**
-3. Set source to `main` branch, root `/`
-4. Your app is live at `https://yourusername.github.io/your-repo/`
-
-> **Important:** The File System Access API works on HTTPS (GitHub Pages) and `localhost`. It does **not** work on plain `file://` URLs opened directly in the browser — use a local server for development.
-
----
-
-## 💻 Local Development
-
-Run a local server (required for the File System API):
-
-```bash
-# Python
-python -m http.server 8080
-
-# Node.js (npx)
-npx serve .
-
-# VS Code: use the "Live Server" extension
-```
-
-Then open `http://localhost:8080` in Chrome or Edge.
-
----
-
-## 🛠️ Browser Compatibility
-
-| Browser | Support |
-|---------|---------|
-| Chrome 86+ | ✅ Full support |
-| Edge 86+   | ✅ Full support |
-| Firefox    | ❌ File System API not supported |
-| Safari     | ⚠️ Partial (no FLAC) |
-
----
-
-## 📝 License
-
-MIT — free to use, modify, and deploy.
+- 🎨 Glassmorphism UI with aurora background
+- 📀 Album library with auto-detected cover art
+- 📻 **Radio mode** — infinite shuffle of all songs, reshuffles automatically
+- 🔀 Shuffle & repeat (off / one / all)
+- 🎵 EQ animation + spinning disc in Radio mode
+- 🤖 Auto-manifest via GitHub Actions — just push music and it updates itself

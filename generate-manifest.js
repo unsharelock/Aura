@@ -37,9 +37,10 @@ function findCover(files, albumFolderName) {
   return null;
 }
 
+// Create music folder if it doesn't exist (e.g. fresh GitHub repo)
 if (!fs.existsSync(MUSIC_DIR)) {
-  console.error('❌  ./music folder not found. Create it and add album subfolders inside.');
-  process.exit(1);
+  fs.mkdirSync(MUSIC_DIR, { recursive: true });
+  console.log('📁  Created ./music folder.');
 }
 
 const albums = [];
@@ -71,8 +72,14 @@ for (const entry of entries) {
 
 albums.sort((a, b) => a.name.localeCompare(b.name));
 
+const totalTracks = albums.reduce((s, a) => s + a.tracks.length, 0);
 const manifest = { generated: new Date().toISOString(), albums };
 fs.writeFileSync(MANIFEST_OUT, JSON.stringify(manifest, null, 2), 'utf8');
 
-console.log(`✅  manifest.json written → ${albums.length} album(s), ${albums.reduce((s,a)=>s+a.tracks.length,0)} track(s)`);
-albums.forEach(a => console.log(`   📀 ${a.name} (${a.tracks.length} tracks)${a.cover ? ' 🖼️' : ''}`));
+if (albums.length === 0) {
+  console.log('⚠️  No albums found yet. Add album subfolders with audio files inside ./music/');
+  console.log('✅  manifest.json written → 0 albums (empty library)');
+} else {
+  console.log(`✅  manifest.json written → ${albums.length} album(s), ${totalTracks} track(s)`);
+  albums.forEach(a => console.log(`   📀 ${a.name} (${a.tracks.length} tracks)${a.cover ? ' 🖼️' : ''}`));
+}
