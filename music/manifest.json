@@ -1,9 +1,9 @@
 {
-  "generated": "2026-03-30T09:55:54.455Z",
+  "generated": "2026-03-30T10:24:58.194Z",
   "albums": [
     {
       "name": "Classic",
-      "cover": null,
+      "cover": "music/Classic/A Candle for the Forgotten.jpeg",
       "tracks": [
         {
           "name": "A Candle for the Forgotten",
