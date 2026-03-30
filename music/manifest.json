@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-30T10:25:56.162Z",
+  "generated": "2026-03-30T10:54:27.363Z",
   "albums": [
     {
       "name": "Classic",
@@ -39,6 +39,32 @@
           "name": "Throne of Silence",
           "file": "music/Classic/Throne of Silence.mp3",
           "cover": "music/Classic/Throne of Silence.jpeg"
+        }
+      ]
+    },
+    {
+      "name": "Gospel Concert",
+      "cover": null,
+      "tracks": [
+        {
+          "name": "All I Ask (Cinematic Gospel Plea)",
+          "file": "music/Gospel Concert/All I Ask (Cinematic Gospel Plea).mp3",
+          "cover": "music/Gospel Concert/All I Ask (Cinematic Gospel Plea).jpeg"
+        },
+        {
+          "name": "hallelujah! Female Version",
+          "file": "music/Gospel Concert/hallelujah! Female Version.mp3",
+          "cover": "music/Gospel Concert/hallelujah! Female Version.jpeg"
+        },
+        {
+          "name": "Hello (Cinematic Gospel Apology)",
+          "file": "music/Gospel Concert/Hello (Cinematic Gospel Apology).mp3",
+          "cover": "music/Gospel Concert/Hello (Cinematic Gospel Apology).jpeg"
+        },
+        {
+          "name": "I Don't Want To Let You Go",
+          "file": "music/Gospel Concert/I Don't Want To Let You Go.mp3",
+          "cover": "music/Gospel Concert/I Don't Want To Let You Go.jpeg"
         }
       ]
     }
