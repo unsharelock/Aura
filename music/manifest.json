@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-30T11:04:51.299Z",
+  "generated": "2026-03-30T11:05:50.663Z",
   "albums": [
     {
       "name": "Classic",
@@ -65,6 +65,36 @@
           "name": "I Don't Want To Let You Go",
           "file": "music/Gospel Concert/I Don't Want To Let You Go.mp3",
           "cover": "music/Gospel Concert/I Don't Want To Let You Go.jpeg"
+        },
+        {
+          "name": "I'm Feeling Good - Female Version",
+          "file": "music/Gospel Concert/I'm Feeling Good - Female Version.mp3",
+          "cover": "music/Gospel Concert/I'm Feeling Good - Female Version.jpeg"
+        },
+        {
+          "name": "I'm Feeling Good - Male Version",
+          "file": "music/Gospel Concert/I'm Feeling Good - Male Version.mp3",
+          "cover": "music/Gospel Concert/I'm Feeling Good - Male Version.jpeg"
+        },
+        {
+          "name": "Photograph",
+          "file": "music/Gospel Concert/Photograph.mp3",
+          "cover": "music/Gospel Concert/Photograph.jpeg"
+        },
+        {
+          "name": "reason  (Cinematic Gospel reason)",
+          "file": "music/Gospel Concert/reason  (Cinematic Gospel reason).mp3",
+          "cover": "music/Gospel Concert/reason  (Cinematic Gospel reason).jpeg"
+        },
+        {
+          "name": "Stay With Me",
+          "file": "music/Gospel Concert/Stay With Me.mp3",
+          "cover": "music/Gospel Concert/Stay With Me.jpeg"
+        },
+        {
+          "name": "What About Us",
+          "file": "music/Gospel Concert/What About Us.mp3",
+          "cover": "music/Gospel Concert/What About Us.jpeg"
         }
       ]
     }
