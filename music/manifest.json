@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-30T10:54:27.363Z",
+  "generated": "2026-03-30T11:04:51.299Z",
   "albums": [
     {
       "name": "Classic",
@@ -44,7 +44,7 @@
     },
     {
       "name": "Gospel Concert",
-      "cover": null,
+      "cover": "music/Gospel Concert/cover.jpeg",
       "tracks": [
         {
           "name": "All I Ask (Cinematic Gospel Plea)",
