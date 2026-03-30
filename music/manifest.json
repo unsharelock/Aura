@@ -1,37 +1,44 @@
 {
-  "generated": "2026-03-30T10:24:58.194Z",
+  "generated": "2026-03-30T10:25:56.162Z",
   "albums": [
     {
       "name": "Classic",
-      "cover": "music/Classic/A Candle for the Forgotten.jpeg",
+      "cover": null,
       "tracks": [
         {
           "name": "A Candle for the Forgotten",
-          "file": "music/Classic/A Candle for the Forgotten.mp3"
+          "file": "music/Classic/A Candle for the Forgotten.mp3",
+          "cover": "music/Classic/A Candle for the Forgotten.jpeg"
         },
         {
           "name": "Ashes of the Horizon",
-          "file": "music/Classic/Ashes of the Horizon.mp3"
+          "file": "music/Classic/Ashes of the Horizon.mp3",
+          "cover": "music/Classic/Ashes of the Horizon.jpeg"
         },
         {
           "name": "Echoes of the Last Light",
-          "file": "music/Classic/Echoes of the Last Light.mp3"
+          "file": "music/Classic/Echoes of the Last Light.mp3",
+          "cover": "music/Classic/Echoes of the Last Light.jpeg"
         },
         {
           "name": "Moonlit Cathedrals",
-          "file": "music/Classic/Moonlit Cathedrals.mp3"
+          "file": "music/Classic/Moonlit Cathedrals.mp3",
+          "cover": null
         },
         {
           "name": "Storm Over the Eternal Crown",
-          "file": "music/Classic/Storm Over the Eternal Crown.mp3"
+          "file": "music/Classic/Storm Over the Eternal Crown.mp3",
+          "cover": "music/Classic/Storm Over the Eternal Crown.jpeg"
         },
         {
           "name": "The Last Ember We Carried",
-          "file": "music/Classic/The Last Ember We Carried.mp3"
+          "file": "music/Classic/The Last Ember We Carried.mp3",
+          "cover": "music/Classic/The Last Ember We Carried.jpeg"
         },
         {
           "name": "Throne of Silence",
-          "file": "music/Classic/Throne of Silence.mp3"
+          "file": "music/Classic/Throne of Silence.mp3",
+          "cover": "music/Classic/Throne of Silence.jpeg"
         }
       ]
     }
