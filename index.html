@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura — Music Player</title>
+  <meta name="description" content="A premium music player with album browsing and infinite radio mode." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════ BACKGROUND AURORA ═══════════════════ -->
+  <div class="aurora-bg">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="noise-overlay"></div>
+  </div>
+
+  <!-- ═══════════════════ LOADING SCREEN ═══════════════════ -->
+  <div id="loading-screen" class="screen active">
+    <div class="loading-content">
+      <div class="logo-wrap">
+        <div class="logo-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M18 14v20M24 10v28M30 16v16M36 20v8M12 20v8" stroke="url(#lg1)" stroke-width="2.5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="lg1" x1="12" y1="10" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="logo-text">Aura</h1>
+      </div>
+      <div class="loading-bar-wrap">
+        <div class="loading-bar"><div class="loading-fill"></div></div>
+      </div>
+      <p class="loading-label" id="loading-label">Loading your music…</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ ERROR SCREEN ═══════════════════ -->
+  <div id="error-screen" class="screen">
+    <div class="error-content">
+      <div class="logo-wrap">
+        <div class="logo-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M18 14v20M24 10v28M30 16v16M36 20v8M12 20v8" stroke="url(#lg2)" stroke-width="2.5" stroke-linecap="round"/>
+            <defs><linearGradient id="lg2" x1="12" y1="10" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+          </svg>
+        </div>
+        <span class="logo-text">Aura</span>
+      </div>
+      <div class="error-box">
+        <div class="error-icon">⚠️</div>
+        <h2 class="error-title">Music library not found</h2>
+        <p class="error-desc">No <code>music/manifest.json</code> was found. Run this command once to generate it:</p>
+        <div class="error-cmd">node generate-manifest.js</div>
+        <p class="error-desc" style="margin-top:16px;">Then refresh this page. Your <code>music/</code> folder should look like:</p>
+        <pre class="error-tree">music/
+├── Album One/
+│   ├── cover.jpg
+│   ├── 01 - Song.mp3
+│   └── 02 - Song.flac
+└── Album Two/
+    └── ...</pre>
+        <button class="btn-retry" id="retry-btn">↻ Retry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ MAIN APP ═══════════════════ -->
+  <div id="app-screen" class="screen">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-wrap logo-small">
+          <div class="logo-icon logo-icon-sm">
+            <svg viewBox="0 0 48 48" fill="none">
+              <path d="M18 14v20M24 10v28M30 16v16M36 20v8M12 20v8" stroke="url(#lg3)" stroke-width="2.5" stroke-linecap="round"/>
+              <defs><linearGradient id="lg3" x1="12" y1="10" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+            </svg>
+          </div>
+          <span class="logo-text logo-text-sm">Aura</span>
+        </div>
+        <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" id="nav-library" data-view="library">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Library</span>
+        </button>
+        <button class="nav-item" id="nav-radio" data-view="radio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+          <span>Radio</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-section-label">Albums</div>
+      <div class="album-list" id="album-list"></div>
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="main-content" id="main-content">
+
+      <!-- LIBRARY VIEW -->
+      <div id="view-library" class="view active-view">
+        <div class="view-header">
+          <h2 class="view-title">Your Library</h2>
+          <div class="view-stats" id="library-stats"></div>
+        </div>
+        <div class="albums-grid" id="albums-grid"></div>
+      </div>
+
+      <!-- ALBUM VIEW -->
+      <div id="view-album" class="view">
+        <button class="back-btn" id="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Library
+        </button>
+        <div class="album-hero" id="album-hero">
+          <div class="album-hero-art" id="album-hero-art">
+            <div class="default-album-art">
+              <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" fill="url(#ag1)" opacity="0.2"/><circle cx="40" cy="40" r="10" fill="url(#ag1)"/><path d="M40 4v36M40 40v36M4 40h36M40 40h32" stroke="url(#ag1)" stroke-width="1" opacity="0.3"/><defs><linearGradient id="ag1" x1="4" y1="4" x2="76" y2="76" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs></svg>
+            </div>
+          </div>
+          <div class="album-hero-info">
+            <div class="album-hero-label">Album</div>
+            <h2 class="album-hero-title" id="album-hero-title"></h2>
+            <div class="album-hero-meta" id="album-hero-meta"></div>
+            <div class="album-actions">
+              <button class="btn-play-album" id="play-album-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Play
+              </button>
+              <button class="btn-shuffle-album" id="shuffle-album-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+                Shuffle
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="track-list" id="track-list"></div>
+      </div>
+
+      <!-- RADIO VIEW -->
+      <div id="view-radio" class="view">
+        <div class="radio-content">
+          <div class="radio-visual">
+            <div class="radio-disc" id="radio-disc">
+              <div class="radio-disc-inner">
+                <div class="radio-disc-art" id="radio-disc-art">
+                  <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" fill="url(#rg1)" opacity="0.15"/><circle cx="40" cy="40" r="10" fill="url(#rg1)"/><defs><linearGradient id="rg1" x1="4" y1="4" x2="76" y2="76"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs></svg>
+                </div>
+              </div>
+              <div class="disc-ring ring-1"></div>
+              <div class="disc-ring ring-2"></div>
+              <div class="disc-ring ring-3"></div>
+            </div>
+            <div class="radio-eq" id="radio-eq">
+              <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+              <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+              <div class="eq-bar"></div><div class="eq-bar"></div>
+            </div>
+          </div>
+          <div class="radio-info">
+            <div class="radio-badge">
+              <span class="radio-dot"></span>RADIO
+            </div>
+            <h2 class="radio-now-playing" id="radio-now-title">Press Play to Start</h2>
+            <p class="radio-album-name" id="radio-album-name">Infinite shuffle · All songs</p>
+            <div class="radio-progress-wrap">
+              <span class="radio-time" id="radio-time-cur">0:00</span>
+              <input type="range" class="progress-bar" id="radio-progress" value="0" min="0" max="100" step="0.1" />
+              <span class="radio-time" id="radio-time-dur">0:00</span>
+            </div>
+            <div class="radio-controls">
+              <button class="ctrl-btn" id="radio-prev-btn" title="Previous">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+              <button class="ctrl-btn ctrl-play-pause" id="radio-play-btn">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg class="icon-pause hidden" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              </button>
+              <button class="ctrl-btn" id="radio-next-btn" title="Next">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+            <div class="radio-queue-label">Up next</div>
+            <div class="radio-queue" id="radio-queue"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ── BOTTOM PLAYER BAR ── -->
+    <div class="player-bar" id="player-bar">
+      <div class="player-track-info">
+        <div class="player-art" id="player-art">
+          <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="url(#pb1)" opacity="0.2"/><circle cx="20" cy="20" r="5" fill="url(#pb1)"/><defs><linearGradient id="pb1" x1="2" y1="2" x2="38" y2="38"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs></svg>
+        </div>
+        <div class="player-meta">
+          <div class="player-song-title" id="player-title">No track selected</div>
+          <div class="player-song-album" id="player-album">—</div>
+        </div>
+      </div>
+
+      <div class="player-center">
+        <div class="player-controls">
+          <button class="ctrl-btn ctrl-sm" id="player-shuffle-btn" title="Shuffle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+          </button>
+          <button class="ctrl-btn ctrl-sm" id="player-prev-btn" title="Previous">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <button class="ctrl-btn ctrl-play-pause" id="player-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg class="icon-pause hidden" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <button class="ctrl-btn ctrl-sm" id="player-next-btn" title="Next">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <button class="ctrl-btn ctrl-sm" id="player-repeat-btn" title="Repeat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          </button>
+        </div>
+        <div class="player-progress-row">
+          <span class="time-label" id="player-cur">0:00</span>
+          <input type="range" class="progress-bar" id="player-progress" value="0" min="0" max="100" step="0.1" />
+          <span class="time-label" id="player-dur">0:00</span>
+        </div>
+      </div>
+
+      <div class="player-right">
+        <div class="player-eq" id="player-eq">
+          <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+          <div class="eq-bar"></div><div class="eq-bar"></div>
+        </div>
+        <button class="ctrl-btn ctrl-sm" id="player-volume-btn" title="Mute">
+          <svg class="icon-vol-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <svg class="icon-vol-mute hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        </button>
+        <input type="range" class="volume-bar" id="player-volume" value="80" min="0" max="100" step="1" />
+      </div>
+    </div>
+
+  </div><!-- end #app-screen -->
+
+  <audio id="audio-engine" preload="auto"></audio>
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
