@@ -301,16 +301,19 @@ function renderAlbumView(i) {
 
   // Track list
   trackListEl.innerHTML = '';
-  const albumHasThumbs = album.tracks.some(t => t.cover);
+  // Show thumbnail column if album has a cover OR any track has its own cover
+  const albumHasThumbs = !!(album.cover || album.tracks.some(t => t.cover));
   album.tracks.forEach((track, ti) => {
     const isNowPlaying =
       !state.isRadioMode &&
       state.currentTrack &&
       state.currentTrack.file === track.file;
 
+    // Per-song cover takes priority, falls back to album cover
+    const thumbSrc = track.cover || album.cover || null;
     const thumbHtml = albumHasThumbs
-      ? `<div class="track-thumb${track.cover ? '' : ' track-thumb-empty'}">
-           ${track.cover ? `<img src="${track.cover}" alt="${track.name}" loading="lazy" />` : ''}
+      ? `<div class="track-thumb${thumbSrc ? '' : ' track-thumb-empty'}">
+           ${thumbSrc ? `<img src="${thumbSrc}" alt="${track.name}" loading="lazy" />` : ''}
          </div>`
       : '';
 
