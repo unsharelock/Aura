@@ -418,7 +418,7 @@ code { font-family: 'Courier New', monospace; }
 
 .track-list { display: flex; flex-direction: column; gap: 2px; }
 .track-item {
-  display: grid; grid-template-columns: 40px 1fr auto;
+  display: grid; grid-template-columns: 40px 1fr auto auto;
   align-items: center; gap: 12px;
   padding: 10px 14px; border-radius: var(--radius-sm); cursor: pointer;
   transition: all var(--transition); border: 1px solid transparent;
@@ -426,7 +426,7 @@ code { font-family: 'Courier New', monospace; }
 }
 /* When album has any thumbnails, add a column for the image */
 .track-item.has-thumbs {
-  grid-template-columns: 40px 44px 1fr auto;
+  grid-template-columns: 40px 44px 1fr auto auto;
 }
 .track-item:hover {
   background: var(--bg-card); border-color: var(--border-glass);
@@ -488,6 +488,25 @@ code { font-family: 'Courier New', monospace; }
 .track-item.playing .track-name { color: var(--accent-purple); }
 .track-artist { font-size: 0.78rem; color: var(--text-muted); }
 .track-duration { font-size: 0.82rem; color: var(--text-muted); font-feature-settings: 'tnum'; }
+
+/* Download button */
+.track-download {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  color: var(--text-muted);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--transition), color var(--transition), background var(--transition), transform var(--transition);
+  text-decoration: none; flex-shrink: 0;
+}
+.track-download svg { width: 16px; height: 16px; }
+.track-item:hover .track-download {
+  opacity: 1; pointer-events: all;
+}
+.track-download:hover {
+  color: var(--accent-purple);
+  background: rgba(167,139,250,0.15);
+  transform: translateY(1px);
+}
 
 /* ── RADIO VIEW ── */
 #view-radio {

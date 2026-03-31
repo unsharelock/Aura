@@ -332,7 +332,14 @@ function renderAlbumView(i) {
         <div class="track-name">${track.name}</div>
         <div class="track-artist">${album.name}</div>
       </div>
-      <span class="track-duration" id="tdur-${i}-${ti}">—</span>`;
+      <span class="track-duration" id="tdur-${i}-${ti}">—</span>
+      <a class="track-download" href="${track.file}" download="${track.name}" title="Download ${track.name}" onclick="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </a>`;
     item.addEventListener('click', () => {
       state.isRadioMode = false;
       playAlbum(i, false, ti);
