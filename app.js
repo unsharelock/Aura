@@ -416,11 +416,24 @@ function onPlaybackStarted(track) {
   state.isPlaying = true;
   updatePlayButtons(true);
   updatePlayerBar(track);
-  if (state.currentView === 'album' && state.currentAlbumIndex !== null) {
-    renderAlbumView(state.currentAlbumIndex);
-  }
+  // Just update the playing highlight — don't re-render the whole list
+  updateTrackHighlight();
   document.title = `${track.name} — Aura`;
   setEqActive(true);
+}
+
+// Lightweight: swap the .playing class on track rows without re-rendering
+function updateTrackHighlight() {
+  document.querySelectorAll('.track-item').forEach((item, ti) => {
+    if (!state.currentTrack || state.isRadioMode) {
+      item.classList.remove('playing');
+      return;
+    }
+    const album = state.albums[state.currentAlbumIndex];
+    const match = album && album.tracks[ti] &&
+                  album.tracks[ti].file === state.currentTrack.file;
+    item.classList.toggle('playing', !!match);
+  });
 }
 
 // ── RADIO ───────────────────────────────────────────────────────────────────
